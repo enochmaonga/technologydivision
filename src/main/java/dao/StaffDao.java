@@ -1,6 +1,6 @@
 package dao;
-import models.Staff;
 
+import Models.Staff;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface StaffDao {
 
 
     // READ
-    Staff findById(int id);
+    Object findById(int id);
 
 
     // UPDATE

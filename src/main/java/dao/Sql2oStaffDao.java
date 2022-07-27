@@ -1,4 +1,5 @@
 package dao;
+import Models.Staff;
 import models.Staff;
 import org.sql2o.*;
 import java.util.List;
@@ -11,9 +12,9 @@ public class Sql2oStaffDao implements StaffDao {
 
     @Override
     public void add(Staff staff) {
-        String sql = "INSERT INTO staff (name,role,responsibility,departmentId) VALUES (:name,:role,:responsibility,:departmentId)";
+        String sql = "INSERT INTO staff (name,role,responsibility,departmentId) VALUES (:name,:role,:responsibility,:department id)";
         try(Connection con = sql2o.open()){
-            int id = (int) con.createQuery(sql, true)
+            int id = (int) con.createQuery(sql)
                     .bind(staff)
                     .executeUpdate()
                     .getKey();
@@ -34,15 +35,20 @@ public class Sql2oStaffDao implements StaffDao {
     @Override
     public List<Staff> getByDepartment(int departmentId) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM staff WHERE departmentId = :departmentId")
-                    .addParameter("departmentId", departmentId)
+            return con.createQuery("SELECT * FROM staff WHERE departmentId = :department int")
+                    .addParameter("departmentId", department int);
                     .executeAndFetch(Staff.class);
         }
     }
 
+    @Override
+    public void add(Staff staff) {
+
+    }
+
 
     @Override
-    public Staff findById(int id) {
+    public Object findById(int id) {
         try(Connection con = sql2o.open()){
             return con.createQuery("SELECT * FROM staff WHERE id = :id")
                     .addParameter("id", id)

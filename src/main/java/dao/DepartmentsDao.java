@@ -1,44 +1,37 @@
 package dao;
 
 import Models.Departments;
-import models.Departments;
-
-import java.util.List;
+import Models.Staff;
 
 public class DepartmentsDao {
 
     //list
-    List<Departments> getAll() {
+    Sql2o getAll(Staff departments) {
         return null;
     }
 
     //Create
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
     public DepartmentsDao() {
     }
 
-    void add(Departments category) {
+    public void add(Departments category) {
 
     }
 
     //Read
 
-    Departments findById(int() {
+    public Departments findById(int departmentId) {
         return null;
     }
 
     //Update
-    void update(int id, String name) {
+    public void update(int id, String name) {
 
     }
 
     //Delete
-    void deleteById(int id) {
+    public void deleteById(int id) {
 
     }
 

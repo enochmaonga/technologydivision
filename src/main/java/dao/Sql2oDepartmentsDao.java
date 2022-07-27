@@ -1,16 +1,14 @@
 package dao;
+
+import Models.Departments;
+import Models.Staff;
 import models.Departments;
-import models.Staff;
-import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
-
 import java.sql.Connection;
-import java.util.List;
-import java.util.Objects;
 
-public class Sql2oDepartmentsDao implements DepartmentsDao {
+public class Sql2oDepartmentsDao extends DepartmentsDao {
     private final Sql2o Sql2o;
 
     public Sql2oDepartmentsDao(Sql2o sql2o) {
@@ -18,12 +16,12 @@ public class Sql2oDepartmentsDao implements DepartmentsDao {
     }
 
     @Override
-    public List<Departments> getAll() {
+    public Sql2o getAll(Staff departments) {
         try (Connection con = sql2o.open()) {
             return con.creatQuery("SELECT * FROM departments")
                     .executeAndFetch(departements.class);
         }
-
+////---------------------
 //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
@@ -49,9 +47,9 @@ public class Sql2oDepartmentsDao implements DepartmentsDao {
 //    Departments findById() {
 //        return super.findById();
 //    }
-
+//--------------
         @Override
-        public void add (Departments departments){
+        public void add ;(Departments departments){
             String sql = "INSERT INTO departments (name) VALUES (:name)";
             try (Connection con = sql2o.open()) {
                 int id = (int) con.createQuery(sql, true)
@@ -76,7 +74,7 @@ public class Sql2oDepartmentsDao implements DepartmentsDao {
 
 
         @Override
-        public void update ( int id, String name){
+        public void update (int id, String name){
             String sql = "UPDATE departments SET name = :name WHERE id=:id";
             try (Connection con = sql2o.open()) {
                 con.createQuery(sql)

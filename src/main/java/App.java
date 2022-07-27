@@ -1,4 +1,5 @@
 
+import Models.Departments;
 import dao.Sql2oDepartmentsDao;
 import dao.Sql2oStaffDao;
 import models.Departments;
@@ -13,9 +14,9 @@ import java.util.*;
 
 import static spark.Spark.*;
 public class App {
-    public static void main(String[] args) {
+    public static <Sql2o> void main(String[] args) {
         staticFileLocation("/public");
-        String connectionString = "jdbc:postgresql://localhost:5432/technologydivision";
+        String connectionString = "jdbc:postgresql://localhost:5432/Technologydivision";
         Sql2o sql2o = new Sql2o(connectionString, "postgres", null);
         Sql2oStaffDao staffDao = new Sql2oStaffDao(sql2o);
         Sql2oDepartmentsDao departmentsDao = new Sql2oDepartmentsDao(sql2o);
@@ -151,6 +152,9 @@ public class App {
             return new ModelAndView(model,"staff-list.hbs");
         },new HandlebarsTemplateEngine());
 
+    }
+
+    private static void staticFileLocation(String s) {
     }
 }
 
