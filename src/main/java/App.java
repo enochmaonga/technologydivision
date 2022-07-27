@@ -22,6 +22,25 @@ public class App {
         Sql2oDepartmentsDao departmentsDao = new Sql2oDepartmentsDao(sql2o);
 
 
+        class App {
+            static  int getHerokuAssignedPort() {
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                if (processBuilder.environment().get("PORT") != null) {
+                    return  Integer.parseInt(processBuilder.environment().get("PORT"));
+                }
+                return 4567;//default port if heroku-port isnt set (i.e on localhost)
+            }
+            public static void main(String[]args) {
+                port(getHerokuAssignedPort());
+                staticFileLocation("/public");
+            }
+
+            private static void port(int herokuAssignedPort) {
+
+            }
+        }
+
+
         //get: show all staff in all departments and show all departments
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
