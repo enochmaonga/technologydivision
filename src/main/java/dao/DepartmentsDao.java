@@ -1,14 +1,14 @@
 package dao;
 
 import Models.Departments;
-import Models.Staff;
+import org.sql2o.Sql2o;
+
+import java.util.List;
 
 public class DepartmentsDao {
 
     //list
-    Sql2o getAll(Staff departments) {
-        return null;
-    }
+
 
     //Create
 
@@ -20,6 +20,13 @@ public class DepartmentsDao {
     }
 
     //Read
+//
+//    public List<Departments> getAll(FileChannel sql2o) {
+//        try(Connection con = sql2o.open()){
+//            return con.createQuery("SELECT * FROM departments")
+//                    .executeAndFetch(Departments.class);
+//        }
+//    }
 
     public Departments findById(int departmentId) {
         return null;
@@ -37,6 +44,21 @@ public class DepartmentsDao {
 
     void voidDeleteAllDepartments() {
 
+    }
+
+//    public void deleteAllDepartments() {
+//        String sql = "DELETE from departments";
+//        FileChannel sql2o = null;
+//        try (Connection con = sql2o.open()) {
+//            con.createQuery(sql)
+//                    .executeUpdate();
+//        } catch (Sql2oException ex){
+//            System.out.println(ex);
+//        }
+//    }
+
+    public List<Departments> getAll(Sql2o sql2o) {
+        return null;
     }
 }
 

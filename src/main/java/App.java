@@ -1,60 +1,64 @@
-
 import Models.Departments;
+import Models.Staff;
 import dao.Sql2oDepartmentsDao;
 import dao.Sql2oStaffDao;
-import models.Departments;
-import models.Staff;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
-
-
-import static spark.Spark.*;
+import static spark.Spark.get;
+import static spark.Spark.post;
 public class App {
-    public static <Sql2o> void main(String[] args) {
+    public static void main(String[] args) {
         staticFileLocation("/public");
-        String connectionString = "jdbc:postgresql://localhost:5432/Technologydivision";
-        Sql2o sql2o = new Sql2o(connectionString, "postgres", null);
+        String connectionString = "jdbc:postgresql://localhost:5432/technologydivision";
+        Sql2o sql2o = new Sql2o (connectionString, "postgres", null);
         Sql2oStaffDao staffDao = new Sql2oStaffDao(sql2o);
         Sql2oDepartmentsDao departmentsDao = new Sql2oDepartmentsDao(sql2o);
 
 
-        class App {
-            static  int getHerokuAssignedPort() {
-                ProcessBuilder processBuilder = new ProcessBuilder();
-                if (processBuilder.environment().get("PORT") != null) {
-                    return  Integer.parseInt(processBuilder.environment().get("PORT"));
-                }
-                return 4567;//default port if heroku-port isnt set (i.e on localhost)
-            }
-            public static void main(String[]args) {
-                port(getHerokuAssignedPort());
-                staticFileLocation("/public");
-            }
 
-            private static void port(int herokuAssignedPort) {
 
-            }
-        }
+//
+//        class App {
+//            static  int getHerokuAssignedPort() {
+//                ProcessBuilder processBuilder = new ProcessBuilder();
+//                if (processBuilder.environment().get("PORT") != null) {
+//                    return  Integer.parseInt(processBuilder.environment().get("PORT"));
+//                }
+//                return 4567;//default port if heroku-port isnt set (i.e on localhost)
+//            }
+//            public static void main(String[]args) {
+//                port(getHerokuAssignedPort());
+//                staticFileLocation("/public");
+//            }
+
+//            private static void port(int herokuAssignedPort) {
+//
+//            }
+//        }
 
 
         //get: show all staff in all departments and show all departments
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             List<Staff> staff = staffDao.getAll();
-            List<Departments> departments = departmentsDao.getAll();
+            List<Departments> departments = departmentsDao.getAll(sql2o);
             model.put("myStaff", staff);
             model.put("myDepartments",departments);
             return new ModelAndView(model, "staff-list.hbs");
         }, new HandlebarsTemplateEngine());
+
+
         //get: show a form to create a new department
         //  /departments/new
         get("/departments/new",(req,res)->{
             Map <String,Object> model = new HashMap<String,Object>();
-            List<Departments> departments = departmentsDao.getAll();
+            List<Departments> departments = departmentsDao.getAll(sql2o);
             model.put("myDepartments",departments);
             return new ModelAndView(model,"new-department-form.hbs");
         },new HandlebarsTemplateEngine());
@@ -75,7 +79,7 @@ public class App {
         //get: get all departments
         get("/departments",(req,res)->{
             Map <String,Object> model = new HashMap<String,Object>();
-            List<Departments> departments = departmentsDao.getAll();
+            List<Departments> departments = departmentsDao.getAll(sql2o);
             model.put("myDepartments",departments);
             return new ModelAndView(model,"department-list.hbs");
         },new HandlebarsTemplateEngine());
@@ -113,7 +117,7 @@ public class App {
         //get: add new staff form
         get("/staff/new",(req,res)->{
             Map<String, Object> model = new HashMap<>();
-            List<Departments> departments = departmentsDao.getAll();
+            List<Departments> departments = departmentsDao.getAll(sql2o);
             model.put("myDepartments",departments);
             return new ModelAndView(model,"new-staff-form.hbs");
         },new HandlebarsTemplateEngine());
@@ -137,7 +141,7 @@ public class App {
             int id = Integer.parseInt(req.params("id"));
             Map<String,Object> model = new HashMap<String,Object>();
             model.put("myStaff",staffDao.findById(id));
-            model.put("myDepartments",departmentsDao.getAll());
+            model.put("myDepartments",departmentsDao.getAll(sql2o));
             return new ModelAndView(model,"staff-edit-form.hbs");
         },new HandlebarsTemplateEngine());
 
@@ -166,7 +170,7 @@ public class App {
             int departmentId = Integer.parseInt(req.params("id"));
             Map<String,Object> model = new HashMap<>();
             model.put("myStaff",staffDao.getByDepartment(departmentId));
-            model.put("myDepartments",departmentsDao.getAll());
+            model.put("myDepartments",departmentsDao.getAll(sql2o));
             model.put("myDepartment",departmentsDao.findById(departmentId));
             return new ModelAndView(model,"staff-list.hbs");
         },new HandlebarsTemplateEngine());

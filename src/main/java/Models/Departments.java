@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class Departments {
     private String name;
-}
     private int id;
     private static ArrayList<Departments> mInstances = new ArrayList<>();
     public Departments(String name){

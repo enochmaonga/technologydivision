@@ -1,0 +1,75 @@
+{{#partial "content"}}
+
+
+    <section class="container pt-3 row">
+        <aside class="col-sm-12 col-lg-3">
+            <div class="list-group list-group-flush">
+                <a href="/" class="list-group-item list-group-item-action">All staff</a>
+                {{#each myDepartments}}
+                    <a href="/department/{{id}}/staff" class="list-group-item list-group-item-action">{{name}}</a>
+                {{/each}}
+            </div>
+            <hr>
+            <div class="list-group list-group-flush">
+                <a href="" class="list-group-item list-group-item-action">News</a>
+                <a href="" class="list-group-item list-group-item-action">Mail</a>
+            </div>
+        </aside>
+        <article class="col-sm-12 col-lg-9">
+            <h5>Technology Division</h5>
+            <p>If you’re the type of person who enjoys the process of researching, troubleshooting and just
+                plain figuring things out, the IT field can be a great fit for you. At a fundamental level,
+                many IT roles are focused on solving problems—whether that’s helping someone troubleshoot issues
+                they’re having with Outlook®, automating a tedious process with code or providing answers for
+                how to best expand an enterprise-scale network.
+
+                “IT careers require analytical skills. People working in this field are expected to be good
+                problem-solvers and innovators,” says Nate Tsang of WallStreetZen. “If you love solving problems
+                and providing new solutions to them, then go ahead and pursue a career in IT. </p>
+            {{#if myDepartments}}
+                <p>Our major areas of concern include: </p>
+                <ol>
+                    {{#each myDepartments}}
+                        <li>{{name}}</li>
+                    {{/each}}
+                </ol>
+            {{/if}}
+            {{#if myDepartment}}
+                <h5>{{myDepartment.name}} Department Staff</h5>
+            {{else}}
+                <h5>All Staff</h5>
+            {{/if}}
+            {{#if myStaff}}
+                <table class="table table-borderless  mx-auto table-sm text-small">
+                    <thead class="table-success">
+                    <tr><th>Name</th><th>Role</th><th>Responsibility</th><th class="text-center">Actions</th></tr>
+                    </thead>
+                    <tbody>
+                    {{#each myStaff}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{role}}</td>
+                            <td>{{responsibility}}</td>
+                            <td class="text-center">
+                                <a href="/staff/{{id}}/edit" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="/staff/{{id}}/delete" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <div class="alert alert-warning mt-3" role="alert">
+                    We have not added staff now, please click  <a href="/staff/new" class="alert-link">here</a>.to add new staff.
+                </div>
+
+
+            {{/if}}
+        </article>
+    </section>
+
+
+{{/partial}}
+
+
+{{> layout.hbs}}

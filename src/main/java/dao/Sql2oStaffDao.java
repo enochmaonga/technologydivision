@@ -1,7 +1,9 @@
 package dao;
 import Models.Staff;
-import models.Staff;
+//import models.Staff;
 import org.sql2o.*;
+import org.sql2o.Connection;
+
 import java.util.List;
 
 public class Sql2oStaffDao implements StaffDao {
@@ -13,7 +15,7 @@ public class Sql2oStaffDao implements StaffDao {
     @Override
     public void add(Staff staff) {
         String sql = "INSERT INTO staff (name,role,responsibility,departmentId) VALUES (:name,:role,:responsibility,:department id)";
-        try(Connection con = sql2o.open()){
+        try(org.sql2o.Connection con = sql2o.open()){
             int id = (int) con.createQuery(sql)
                     .bind(staff)
                     .executeUpdate()
@@ -25,7 +27,7 @@ public class Sql2oStaffDao implements StaffDao {
     }
     @Override
     public List<Staff> getAll() {
-        try(Connection con = sql2o.open()){
+        try(org.sql2o.Connection con = sql2o.open()){
             return con.createQuery("SELECT * FROM staff")
                     .executeAndFetch(Staff.class);
         }
@@ -33,23 +35,19 @@ public class Sql2oStaffDao implements StaffDao {
 
 
     @Override
-    public List<Staff> getByDepartment(int departmentId) {
-        try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM staff WHERE departmentId = :department int")
-                    .addParameter("departmentId", department int);
+    public List<Staff>getByDepartment(int departmentId) {
+        try(org.sql2o.Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM staff WHERE departmentId = :departmentId")
+                    .addParameter("departmentId", departmentId)
                     .executeAndFetch(Staff.class);
         }
     }
 
-    @Override
-    public void add(Staff staff) {
-
-    }
 
 
     @Override
     public Object findById(int id) {
-        try(Connection con = sql2o.open()){
+        try(org.sql2o.Connection con = sql2o.open()){
             return con.createQuery("SELECT * FROM staff WHERE id = :id")
                     .addParameter("id", id)
                     .executeAndFetchFirst(Staff.class);
@@ -60,7 +58,7 @@ public class Sql2oStaffDao implements StaffDao {
     @Override
     public void update(int id,String role){
         String sql = "UPDATE staff SET role = :role WHERE id=:id";
-        try(Connection con = sql2o.open()){
+        try(org.sql2o.Connection con = sql2o.open()){
             con.createQuery(sql)
                     .addParameter("role", role)
                     .addParameter("id", id)
@@ -74,7 +72,7 @@ public class Sql2oStaffDao implements StaffDao {
     @Override
     public void deleteById(int id) {
         String sql = "DELETE from staff WHERE id=:id";
-        try (Connection con = sql2o.open()) {
+        try (org.sql2o.Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
                     .executeUpdate();
